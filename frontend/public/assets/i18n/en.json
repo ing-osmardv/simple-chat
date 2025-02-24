@@ -19,5 +19,10 @@
         "LOGIN_BUTTON": "Sign In",
         "NO_ACCOUNT": "Don't have an account?",
         "SIGN_UP_LINK": "Sign up here"
+    },
+    "MESSAGING": {
+        "SELECT_USER": "Select a user to start chatting",
+        "SEND_BUTTON": "Send",
+        "INPUT_PLACEHOLDER": "Type a message"
     }
 }

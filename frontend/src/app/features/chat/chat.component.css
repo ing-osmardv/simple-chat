@@ -1,0 +1,40 @@
+.chat-container {
+    display: flex;
+    height: 100vh;
+    gap: 25px;
+    justify-content: center;
+    align-items: center;
+}
+
+.users-container {
+    height: 75%;
+    padding: 25px;
+    width: 20rem;
+}
+
+.messages-container {
+    height: 75%;
+    padding: 25px;
+    width: 40rem;
+}
+
+.chat-header {
+    color: whitesmoke;
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 16px;
+}
+
+.chat-messages {
+    overflow-y: auto;
+    margin-bottom: 16px;
+}
+
+.message {
+    margin: 8px 0;
+}
+
+.message-input {
+    width: 100%;
+    margin-right: 8px;
+}
