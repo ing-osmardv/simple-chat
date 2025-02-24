@@ -18,8 +18,6 @@ export interface ICreateUser {
 }
 
 export interface IUpdateUser {
-    email: string;
-    username: string;
     name: string;
     password: string;
     is_connected: boolean;

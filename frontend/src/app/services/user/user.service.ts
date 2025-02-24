@@ -12,8 +12,16 @@ export class UserService {
 
   constructor(private http: HttpClient) { }
 
-  getUsers(): Observable<any> {
+  getUsersRegistered(): Observable<any> {
     return this.http.get(`${this.apiUrl}/user/registered`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem(this.tokenKey)}`,
+      },
+    });
+  }
+
+  join(id: number, socketId: string): Observable<any> {
+    return this.http.put(`${this.apiUrl}/user/join`, { socketId }, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem(this.tokenKey)}`,
       },

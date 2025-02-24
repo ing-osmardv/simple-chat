@@ -40,18 +40,9 @@ export class UserService {
         return await this.userRepository.findOne({where: {...payload}})
     }
 
-    async updateUser(id: string, payload: IUpdateUser) {
-        const user = await this.userRepository.findOne({
-            where: [
-                { username: payload.username },
-                { email: payload.email }
-            ]
-        });
-
-        if (user && user.id !== id) {
-            throw new Error("User already exists");
-        }
-
+    async updateUser(id: string, payload: Partial<IUpdateUser>) {
+        let user =  await this.userRepository.findOne({ where: { id } });
+        user = {...user, ...payload}
         return await this.userRepository.save(user);
     }
 

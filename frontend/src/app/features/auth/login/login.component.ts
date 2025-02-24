@@ -9,6 +9,8 @@ import { Router, RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { AuthService } from '../../../services/auth/auth.service';
 import { SocketService } from '../../../services/socket/socket.service';
+import { UserService } from '../../../services/user/user.service';
+import { catchError, of, switchMap, tap } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -29,6 +31,7 @@ export class LoginComponent {
   socket = inject(SocketService);
   fb = inject(FormBuilder);
   authService = inject(AuthService);
+  userService = inject(UserService);
   router = inject(Router);
   loginForm: FormGroup;
 
@@ -43,17 +46,24 @@ export class LoginComponent {
     if (this.loginForm.invalid) return;
 
     const { email, password } = this.loginForm.value;
-    this.authService.login(email, password).subscribe({
-      next: () => {
-        this.socket.join();
-        this.socket.onWelcome().subscribe((data) => {
-          console.log(data);
-        });
-        this.router.navigate(['/chat']);
-      },
-      error: (err) => {
-        console.error('Login error:', err);
-      }
-    });
+
+    this.authService.login(email, password).pipe(
+      switchMap((loginResponse) => {
+        this.socket.welcome();
+        return this.socket.onWelcome().pipe(
+          switchMap((welcomeData) => {
+            localStorage.setItem('authToken', loginResponse.data.token);
+            return this.userService.join(welcomeData.id, welcomeData.socketId).pipe(
+              tap(() => {
+                this.router.navigate(['/chat']);
+              })
+            );
+          })
+        );
+      }),
+      catchError((err) => {
+        return of(null);
+      })
+    ).subscribe();
   }
 }

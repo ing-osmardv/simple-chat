@@ -6,4 +6,6 @@ const userController = new UserController();
 
 router.get("/registered" ,(req, res) => userController.getUsersRegistered(req, res));
 
+router.put("/join", (req, res) => userController.join(req, res));
+
 export default router;

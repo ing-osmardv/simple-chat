@@ -10,6 +10,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { UserService } from '../../services/user/user.service';
+import { SocketService } from '../../services/socket/socket.service';
 
 @Component({
   selector: 'app-chat',
@@ -32,19 +33,21 @@ import { UserService } from '../../services/user/user.service';
 export class ChatComponent implements OnInit {
 
   userService = inject(UserService);
+  socketService = inject(SocketService);
   users: any[] = [];
 
   selectedUser: any = null;
   newMessage: string = '';
 
   ngOnInit(): void {
+    this.socketService.join();
     this.getUsers();
+    this.onNewJoin();
   }
 
   getUsers() {
-    this.userService.getUsers().subscribe({
+    this.userService.getUsersRegistered().subscribe({
       next: (response) => {
-        console.log(response);
         this.users = response;
       }
     })
@@ -58,5 +61,11 @@ export class ChatComponent implements OnInit {
       this.selectedUser.messages.push({ sender: 'Me', content: this.newMessage });
       this.newMessage = '';
     }
+  }
+
+  onNewJoin() {
+    this.socketService.onJoin().subscribe(() => {
+      this.getUsers();
+    })
   }
 }

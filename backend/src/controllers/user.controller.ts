@@ -13,15 +13,30 @@ export class UserController {
 
     async getUsersRegistered(req: Request, res: Response): Promise<any> {
 
-        const token = req.headers['authorization']?.split(' ')[1];
-        if (!token) {
-            return res.status(403).json({ message: 'Token no proporcionado' });
-        }
-
         try {
+            const token = req.headers['authorization']?.split(' ')[1];
+            if (!token) {
+                return res.status(403).json({ message: 'Token no proporcionado' });
+            }
             const decoded = jwt.verify(token, process.env.JWT_SECRET as string) as IUser;
             const users = await this.userService.getUsersExceptId(decoded.id);
             return res.status(201).json(users);
+        } catch (error) {
+            return res.status(500).json({ message: "Internal Server Error", error: error.message });
+        }
+    }
+
+    async join(req: Request, res: Response): Promise<any> {
+        try {
+            const { socketId } = req.body;
+            console.log(req.body)
+            const token = req.headers['authorization']?.split(' ')[1];
+            if (!token) {
+                return res.status(403).json({ message: 'Token no proporcionado' });
+            }
+            const decoded = jwt.verify(token, process.env.JWT_SECRET as string) as IUser;
+            const user = await this.userService.updateUser(decoded.id, { is_connected: true, socket_id: socketId });
+            return res.status(201).json(user);
         } catch (error) {
             return res.status(500).json({ message: "Internal Server Error", error: error.message });
         }

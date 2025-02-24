@@ -12,6 +12,18 @@ export class SocketService {
 
   constructor() { }
 
+  welcome(): void {
+    this.socket.emit('welcome');
+  }
+  
+  onWelcome(): Observable<any> {
+    return new Observable((observer) => {
+      this.socket.on('welcome', (data) => {
+        observer.next(data);
+      });
+    });
+  }
+
   join(): void {
     this.socket.emit('join');
   }
@@ -24,11 +36,4 @@ export class SocketService {
     });
   }
 
-  onWelcome(): Observable<any> {
-    return new Observable((observer) => {
-      this.socket.on('welcome', (data) => {
-        observer.next(data);
-      });
-    });
-  }
 }
