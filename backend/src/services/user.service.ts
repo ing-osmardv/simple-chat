@@ -27,6 +27,10 @@ export class UserService {
         return await this.userRepository.findOne({ where: { id } });
     }
 
+    async getUserParams(payload: Partial<IUser>): Promise<IUser | null> {
+        return await this.userRepository.findOne({where: {...payload}})
+    }
+
     async updateUser(id: number, payload: IUpdateUser) {
         const user = await this.userRepository.findOne({
             where: [

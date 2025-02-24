@@ -5,6 +5,9 @@ import dotenv from "dotenv";
 
 import "./data-source";
 
+import authRouter from "./routes/auth.router";
+import messageRouter from "./routes/auth.router";
+
 dotenv.config();
 
 const app = express();
@@ -16,6 +19,9 @@ app.use(express.json());
 app.get("/", (req, res) => {
   res.send("SIMPLE CHAT API is running...");
 });
+
+app.use("/auth", authRouter);
+app.use("/message", messageRouter);
 
 const PORT = process.env.PORT || 3000;
 server.listen(PORT, () => {
