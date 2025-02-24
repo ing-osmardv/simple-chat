@@ -9,6 +9,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
+import { UserService } from '../../services/user/user.service';
 
 @Component({
   selector: 'app-chat',
@@ -30,17 +31,24 @@ import { MatCardModule } from '@angular/material/card';
 })
 export class ChatComponent implements OnInit {
 
-  // spiService = inject(User);
-  users = [];
+  userService = inject(UserService);
+  users: any[] = [];
 
   selectedUser: any = null;
   newMessage: string = '';
 
   ngOnInit(): void {
-    throw new Error('Method not implemented.');
+    this.getUsers();
   }
 
-  // getUsers()
+  getUsers() {
+    this.userService.getUsers().subscribe({
+      next: (response) => {
+        console.log(response);
+        this.users = response;
+      }
+    })
+  }
   selectUser(user: any) {
     this.selectedUser = user;
   }

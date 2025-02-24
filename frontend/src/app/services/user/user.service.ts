@@ -8,11 +8,15 @@ import { environment } from '../../../environments/environment';
 })
 export class UserService {
   private readonly tokenKey = 'authToken';
-    private apiUrl = environment.apiUrl;
-  
-    constructor(private http: HttpClient) { }
-  
-    getUsers(): Observable<any> {
-      return this.http.post(`${this.apiUrl}/auth/register`, {});
-    }
+  private apiUrl = environment.apiUrl;
+
+  constructor(private http: HttpClient) { }
+
+  getUsers(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/user/registered`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem(this.tokenKey)}`,
+      },
+    });
+  }
 }

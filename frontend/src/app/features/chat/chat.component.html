@@ -2,8 +2,13 @@
     <mat-card class="users-container">
         <mat-nav-list>
             <mat-list-item *ngFor="let user of users" (click)="selectUser(user)">
-                <mat-icon mat-list-icon>person</mat-icon>
-                <!-- <span mat-line>{{ user.name }}</span> -->
+                <span mat-line>
+                    <span class="status-indicator" [ngClass]="{
+                    'connected': user.is_connected,
+                    'disconnected': !user.is_connected
+                  }"></span>
+                    {{ user.name }} ({{ user.username }})
+                </span>
             </mat-list-item>
         </mat-nav-list>
     </mat-card>
