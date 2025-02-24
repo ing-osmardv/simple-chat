@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, OnDestroy, HostListener } from '@angular/core';
 import { TranslatePipe } from '@ngx-translate/core';
 import { CommonModule } from '@angular/common';
 import { MatSidenavModule } from '@angular/material/sidenav';
@@ -30,19 +30,35 @@ import { SocketService } from '../../services/socket/socket.service';
   templateUrl: './chat.component.html',
   styleUrl: './chat.component.css'
 })
-export class ChatComponent implements OnInit {
+export class ChatComponent implements OnInit, OnDestroy {
 
   userService = inject(UserService);
   socketService = inject(SocketService);
   users: any[] = [];
-
   selectedUser: any = null;
   newMessage: string = '';
 
   ngOnInit(): void {
-    this.socketService.join();
     this.getUsers();
     this.onNewJoin();
+    this.socketService.join();
+
+    window.addEventListener('beforeunload', this.onUnload);
+  }
+
+  ngOnDestroy(): void {
+    this.setOfflineStatus();
+    window.removeEventListener('beforeunload', this.onUnload);
+  }
+
+  @HostListener('window:beforeunload', ['$event'])
+  onUnload(event: any) {
+    this.setOfflineStatus();
+  }
+
+  @HostListener('window:popstate', ['$event'])
+  onPopState(event: any) {
+    this.setOfflineStatus();
   }
 
   getUsers() {
@@ -50,8 +66,27 @@ export class ChatComponent implements OnInit {
       next: (response) => {
         this.users = response;
       }
-    })
+    });
   }
+
+  onNewJoin() {
+    this.socketService.onJoin().subscribe((data) => {
+      if (data) {
+        this.setOnlineStatus(data);
+      } else {
+        this.getUsers();
+      }
+    });
+  }
+
+  setOnlineStatus(socketId: string) {
+    this.userService.updateStatus(true, socketId).subscribe();
+  }
+
+  setOfflineStatus() {
+    this.userService.updateStatus(false).subscribe();
+  }
+
   selectUser(user: any) {
     this.selectedUser = user;
   }
@@ -63,9 +98,4 @@ export class ChatComponent implements OnInit {
     }
   }
 
-  onNewJoin() {
-    this.socketService.onJoin().subscribe(() => {
-      this.getUsers();
-    })
-  }
 }

@@ -10,6 +10,7 @@ export const setupSocket = (io: Server) => {
 
         socket.on("join", () => {
             io.emit("join");
+            socket.emit("join", socket.id)
         });
 
         socket.on("disconnect", () => {

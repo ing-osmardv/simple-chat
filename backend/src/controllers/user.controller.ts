@@ -26,16 +26,15 @@ export class UserController {
         }
     }
 
-    async join(req: Request, res: Response): Promise<any> {
+    async status(req: Request, res: Response): Promise<any> {
         try {
-            const { socketId } = req.body;
-            console.log(req.body)
+            const { is_connected, socket_id } = req.body;
             const token = req.headers['authorization']?.split(' ')[1];
             if (!token) {
                 return res.status(403).json({ message: 'Token no proporcionado' });
             }
             const decoded = jwt.verify(token, process.env.JWT_SECRET as string) as IUser;
-            const user = await this.userService.updateUser(decoded.id, { is_connected: true, socket_id: socketId });
+            const user = await this.userService.updateUser(decoded.id, { is_connected, socket_id });
             return res.status(201).json(user);
         } catch (error) {
             return res.status(500).json({ message: "Internal Server Error", error: error.message });

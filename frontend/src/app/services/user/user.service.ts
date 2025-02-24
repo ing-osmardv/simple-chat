@@ -20,8 +20,8 @@ export class UserService {
     });
   }
 
-  join(id: number, socketId: string): Observable<any> {
-    return this.http.put(`${this.apiUrl}/user/join`, { socketId }, {
+  updateStatus(isConnected: boolean, socketId: string | null = null): Observable<any> {
+    return this.http.put<any>(`${this.apiUrl}/user/status`, { is_connected: isConnected, socket_id: socketId }, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem(this.tokenKey)}`,
       },
