@@ -1,0 +1,34 @@
+.register-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.register-card {
+    width: 100%;
+    max-width: 400px;
+    padding: 20px;
+}
+
+.full-width {
+    width: 100%;
+    margin-bottom: 16px;
+}
+
+.login-link {
+    margin-top: 16px;
+    text-align: center;
+}
+
+.login-link a {
+    margin-left: 8px;
+    color: #3f51b5;
+    text-decoration: none;
+}
+
+.register-container-header {
+    color: whitesmoke;
+    width: auto;
+    justify-content: center;
+}

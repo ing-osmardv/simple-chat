@@ -1,0 +1,19 @@
+{
+    "AUTH": {
+        "REGISTER_TITLE": "Registro",
+        "NAME": "Nombre",
+        "NAME_REQUIRED": "El nombre es requerido",
+        "EMAIL": "Correo Electrónico",
+        "EMAIL_REQUIRED": "El correo electrónico es requerido",
+        "EMAIL_INVALID": "El correo electrónico no es válido",
+        "USERNAME": "Nombre de usuario",
+        "USERNAME_REQUIRED": "El nombre de usuario es requerido",
+        "PASSWORD": "Contraseña",
+        "PASSWORD_REQUIRED": "La contraseña es requerida",
+        "PASSWORD_MIN_LENGTH": "La contraseña debe tener al menos 6 caracteres",
+        "PASSWORDS_MISMATCH": "Las contraseñas no coinciden",
+        "REGISTER_BUTTON": "Registrarse",
+        "HAVE_ACCOUNT": "¿Ya tienes una cuenta?",
+        "LOGIN_LINK": "Inicia sesión aquí"
+    }
+}
