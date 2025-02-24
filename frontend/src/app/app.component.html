@@ -1,5 +1,8 @@
 <mat-toolbar class="bar" color="primary">
   <div class="title">SIMPLE CHAT</div>
+  @if(authService.isAuthenticated()){
+    <button mat-button (click)="authService.logout()"> logout</button>
+  }
 </mat-toolbar>
 <div class="app-container">
   <router-outlet></router-outlet>

@@ -74,7 +74,9 @@ export class ChatComponent implements OnInit, OnDestroy {
       if (data) {
         this.setOnlineStatus(data);
       } else {
-        this.getUsers();
+        setTimeout(() => {
+          this.getUsers();
+        }, 5000);
       }
     });
   }
@@ -88,14 +90,11 @@ export class ChatComponent implements OnInit, OnDestroy {
   }
 
   selectUser(user: any) {
-    this.selectedUser = user;
+    
   }
 
   sendMessage() {
-    if (this.selectedUser && this.newMessage.trim()) {
-      this.selectedUser.messages.push({ sender: 'Me', content: this.newMessage });
-      this.newMessage = '';
-    }
+    
   }
 
 }
