@@ -1,1 +1,30 @@
-<p>login works!</p>
+<div class="login-container">
+    <mat-card class="login-card">
+        <mat-card-header class="login-container-header">
+            <mat-card-title color="white">{{ 'AUTH.LOGIN_TITLE' | translate }}</mat-card-title>
+        </mat-card-header>
+        <br>
+    
+        <mat-card-content>
+            <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+                <mat-form-field appearance="outline" class="full-width">
+                    <input matInput formControlName="email" placeholder="{{ 'AUTH.EMAIL' | translate }}">
+                </mat-form-field>
+    
+                <mat-form-field appearance="outline" class="full-width">
+                    <input matInput type="password" formControlName="password"
+                        placeholder="{{ 'AUTH.PASSWORD' | translate }}">
+                </mat-form-field>
+    
+                <button mat-button color="primary" class="full-width" type="submit">
+                    {{ 'AUTH.LOGIN_BUTTON' | translate }}
+                </button>
+            </form>
+    
+            <div class="register-link">
+                <span style="color: whitesmoke;">{{ 'AUTH.NO_ACCOUNT' | translate }}</span>
+                <a routerLink="/register">{{ 'AUTH.SIGN_UP_LINK' | translate }}</a>
+            </div>
+        </mat-card-content>
+    </mat-card>
+</div>

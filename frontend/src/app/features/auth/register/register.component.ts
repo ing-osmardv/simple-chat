@@ -31,7 +31,6 @@ export class RegisterComponent {
     private fb: FormBuilder,
     private authService: AuthService,
     private router: Router,
-    private translate: TranslateService,
   ) {
     this.registerForm = this.fb.group(
       {
@@ -46,8 +45,8 @@ export class RegisterComponent {
   onSubmit() {
     if (this.registerForm.invalid) return;
 
-    const { name, email, username, password } = this.registerForm.value;
-    this.authService.register(name, email, username, password).subscribe({
+    const payload = this.registerForm.value;
+    this.authService.register(payload).subscribe({
       next: () => {
         this.router.navigate(['/login']);
       },
@@ -55,11 +54,5 @@ export class RegisterComponent {
         console.error('Registration error:', err);
       },
     });
-  }
-
-  private passwordMatchValidator(form: FormGroup) {
-    const password = form.get('password')?.value;
-    const confirmPassword = form.get('confirmPassword')?.value;
-    return password === confirmPassword ? null : { mismatch: true };
   }
 }

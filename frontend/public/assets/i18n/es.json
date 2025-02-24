@@ -14,6 +14,10 @@
         "PASSWORDS_MISMATCH": "Las contraseñas no coinciden",
         "REGISTER_BUTTON": "Registrarse",
         "HAVE_ACCOUNT": "¿Ya tienes una cuenta?",
-        "LOGIN_LINK": "Inicia sesión aquí"
+        "LOGIN_LINK": "Inicia sesión aquí",
+        "LOGIN_TITLE": "Iniciar Sesión",
+        "LOGIN_BUTTON": "Ingresar",
+        "NO_ACCOUNT": "¿No tienes una cuenta?",
+        "SIGN_UP_LINK": "Regístrate aquí"
     }
 }
