@@ -11,6 +11,7 @@ import { FormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { UserService } from '../../services/user/user.service';
 import { SocketService } from '../../services/socket/socket.service';
+import { MessageService } from '../../services/message/message.service';
 
 @Component({
   selector: 'app-chat',
@@ -34,7 +35,9 @@ export class ChatComponent implements OnInit, OnDestroy {
 
   userService = inject(UserService);
   socketService = inject(SocketService);
+  messageService = inject(MessageService);
   users: any[] = [];
+  messages: any[] = [];
   selectedUser: any = null;
   newMessage: string = '';
 
@@ -76,7 +79,7 @@ export class ChatComponent implements OnInit, OnDestroy {
       } else {
         setTimeout(() => {
           this.getUsers();
-        }, 5000);
+        }, 1000);
       }
     });
   }
@@ -90,11 +93,31 @@ export class ChatComponent implements OnInit, OnDestroy {
   }
 
   selectUser(user: any) {
-    
+    this.selectedUser = user;
+    this.messageService.getMessages(user.id).subscribe({
+      next: (data) => {
+        this.messages = data;
+      }
+    })
   }
 
   sendMessage() {
-    
+    if (!this.selectedUser || !this.newMessage.trim()) {
+      return;
+    }
+  
+    const messageData = {
+      receiver: this.selectedUser.id,
+      text: this.newMessage.trim(),
+      timestamp: new Date()
+    };
+  
+    this.messageService.sendMessage(messageData).subscribe({
+      next: (savedMessage) => {
+        this.newMessage = '';
+      },
+      error: (err) => console.error('Error sending message:', err)
+    });
   }
 
 }

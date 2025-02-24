@@ -10,15 +10,25 @@ export class MessageService {
     }
 
     async addMessage(payload: ICreateMessage): Promise<IMessage> {
+        console.info(payload)
         const user = this.messageRepository.create(payload);
         return await this.messageRepository.save(user);
     }
 
-    async getUserMessages(sender: number, receiver: number): Promise<IMessage> {
-        const messages = await this.messageRepository.find({
-            where: { sender, receiver },
-        });
+    async getUserMessages(me: string, partner: string): Promise<IMessage[]> {
 
-        return messages;
+        const messages = await this.messageRepository.find({
+            where: [
+                { sender: { id: me }, receiver: { id: partner } },
+                { sender: { id: partner }, receiver: { id: me } }
+            ],
+            relations: ['sender', 'receiver'],
+            order: { created_at: 'ASC' }
+        });
+    
+        return messages.map(msg => ({
+            ...msg,
+            isMine: msg.sender.id === me 
+        }));
     }
 }

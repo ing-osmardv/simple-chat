@@ -7,7 +7,7 @@ import { Server } from "socket.io";
 import "./data-source";
 
 import authRouter from "./routes/auth.router";
-import messageRouter from "./routes/auth.router";
+import messageRouter from "./routes/message.router";
 import userRouter from "./routes/user.router";
 import { setupSocket } from "./socket";
 

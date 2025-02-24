@@ -15,12 +15,12 @@
     <mat-card class="messages-container">
         <div *ngIf="selectedUser">
             <div class="chat-header">
-                <!-- <span>{{ selectedUser.name }}</span> -->
+                <span>{{ selectedUser.name }}</span>
             </div>
-            <!-- <div style="height: 100%;">
+            <div style="height: 100%;">
                 <div class="chat-messages">
-                    <div *ngFor="let message of selectedUser.messages" class="message">
-                        <strong style="color: aqua;">{{ message.sender }}:</strong> {{ message.content }}
+                    <div *ngFor="let message of messages" class="message">
+                        <strong style="color: aqua;">{{ message.sender.username }}:</strong> <span style="color: whitesmoke;">{{ message.text }}</span>
                     </div>
                 </div>
     
@@ -30,7 +30,7 @@
                     </mat-form-field>
                     <button mat-button color="primary" (click)="sendMessage()">{{ 'MESSAGING.SEND_BUTTON' | translate }}</button>
                 </div>
-            </div> -->
+            </div>
         </div>
         <div *ngIf="!selectedUser">
             <p>{{ 'MESSAGING.SELECT_USER' | translate }}</p>
